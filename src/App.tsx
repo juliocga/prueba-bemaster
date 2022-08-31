@@ -1,24 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Routes, Route } from 'react-router-dom';
+import HomeView from './components/HomeView/HomeView';
+import LoginView from './components/LoginView/LoginView';
+import {AuthProvider} from './context/authContext';
+import RegisterView from './components/RegisterView/RegisterView';
+import ProtectedRouter from './components/ProtectedRoute';
+import ContentCategory from './components/ContentCategory/ContentCategory.';
+import ContentDetail from './components/ContentDetail/ContentDetail';
+import NavBar from './components/NavBar/NavBar';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <AuthProvider>
+        <NavBar />
+        <Routes>
+          <Route 
+            path="/" 
+            element={
+              <ProtectedRouter>
+                <HomeView/>
+              </ProtectedRouter>
+            } 
+          />
+          <Route 
+            path="/contentcategory" 
+            element={
+              <ProtectedRouter>
+                <ContentCategory/>
+              </ProtectedRouter>
+            } 
+          />
+          <Route 
+            path="/contentdetail" 
+            element={
+              <ProtectedRouter>
+                <ContentDetail/>
+              </ProtectedRouter>
+            } 
+          />
+          <Route path="/login" element={<LoginView/>} />
+          <Route path="/register" element={<RegisterView/>} />
+        </Routes>
+      </AuthProvider>
     </div>
   );
 }
